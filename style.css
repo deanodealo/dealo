@@ -346,30 +346,28 @@
   .process-step h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:18px;color:var(--slate);margin-bottom:10px;}
   .process-step p{font-size:14.5px;color:var(--mid);}
 
-  /* ============ PRICING TEASER ============ */
-  .pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
-  .price-card{
-    background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:34px;
+  /* ============ PRICING ============ */
+  .pricing-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px;}
+  .pricing-info-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:30px 26px;transition:transform .2s, box-shadow .2s;
   }
-  .price-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:18px;color:var(--slate);margin-bottom:6px;}
-  .price-card .price-sub{font-size:13.5px;color:var(--mid);margin-bottom:22px;}
-  .price-tag{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;}
-  .price-tag .from{font-size:13px;color:var(--mid);font-weight:600;}
-  .price-tag .amount{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:32px;color:var(--slate);}
-  .price-tag .period{font-size:13px;color:var(--mid);}
-  .price-toggle{
-    display:inline-flex;background:var(--bg);border:1px solid var(--border);
-    border-radius:99px;padding:4px;gap:2px;margin-bottom:20px;
+  .pricing-info-card:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(46,55,64,0.08);}
+  .pricing-info-icon{
+    width:44px;height:44px;border-radius:12px;background:var(--slate);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+    color:#fff;font-size:19px;
   }
-  .price-toggle-btn{
-    border:none;background:transparent;padding:8px 14px;border-radius:99px;
-    font-size:12.5px;font-weight:700;color:var(--mid);cursor:pointer;
-    transition:background .2s,color .2s;
+  .pricing-info-card h3{
+    font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px;
+    color:var(--slate);margin-bottom:10px;
   }
-  .price-toggle-btn.is-active{background:var(--slate);color:#fff;}
-  .price-tag-group .price-tag:not(:last-child){margin-bottom:2px;}
-  .price-note{font-size:13px;color:var(--mid);padding-top:18px;margin-top:18px;border-top:1px solid var(--border);}
-  .pricing-footnote{font-size:14px;color:var(--mid);margin-top:28px;max-width:640px;}
+  .pricing-info-card p{font-size:14px;color:var(--mid);line-height:1.65;}
+  .pricing-cta{
+    background:var(--bg);border:1px solid var(--border);border-radius:16px;
+    padding:36px 5%;text-align:center;
+  }
+  .pricing-cta p{font-size:15.5px;color:var(--slate);max-width:560px;margin:0 auto 20px;}
 
   /* ============ CTA BANNER ============ */
   .cta-banner{
@@ -482,7 +480,7 @@
     .spotlight{grid-template-columns:1fr;padding:40px 28px;}
     .process-grid{grid-template-columns:1fr;gap:32px;}
     .process-step::after{display:none;}
-    .pricing-grid{grid-template-columns:1fr;}
+    .pricing-info-grid{grid-template-columns:1fr;}
     .footer-grid{grid-template-columns:1fr 1fr;}
     .hero-motif{opacity:.5;width:380px;height:380px;}
     .orb-1{width:280px;height:280px;}
