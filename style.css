@@ -179,9 +179,30 @@
   }
   .section-head p{font-size:16px;color:var(--mid);}
 
+  /* ============ ABOUT ============ */
+  .about-layout{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:start;}
+  .about-text h2{
+    font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;
+    font-size:clamp(26px,3vw,34px);letter-spacing:-0.01em;color:var(--slate);
+    margin-bottom:18px;
+  }
+  .about-text p{font-size:15.5px;color:var(--mid);margin-bottom:16px;line-height:1.7;}
+  .about-stats{display:flex;flex-direction:column;gap:16px;}
+  .about-stat{
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 24px;
+  }
+  .about-stat-num{
+    display:block;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;
+    font-size:19px;color:var(--blue-dk);margin-bottom:6px;
+  }
+  .about-stat-label{font-size:13.5px;color:var(--mid);line-height:1.5;}
+
   /* ============ SERVICES ============ */
+  .services-subhead{margin:40px 0 24px;}
+  .services-subhead .eyebrow{margin-bottom:0;}
+  .services-grid-secondary{opacity:.92;}
   .services-grid{
-    display:grid;grid-template-columns:repeat(2,1fr);gap:24px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;
   }
   .service-card{
     background:var(--surface);border:1px solid var(--border);border-radius:16px;
@@ -256,6 +277,30 @@
   .sv-live .pulse{width:7px;height:7px;border-radius:50%;background:#3B82F6;animation:pulse 1.6s infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
 
+  /* ============ CASE STUDIES ============ */
+  .case-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+  .case-grid-single{grid-template-columns:1fr;max-width:640px;margin:0 auto;}
+  .case-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    padding:34px 30px;transition:transform .2s, box-shadow .2s;
+  }
+  .case-card:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(46,55,64,0.08);}
+  .case-tag{
+    font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--blue-dk);display:block;margin-bottom:10px;
+  }
+  .case-card h3{
+    font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:19px;
+    color:var(--slate);margin-bottom:22px;
+  }
+  .case-row{margin-bottom:18px;}
+  .case-row:last-child{margin-bottom:0;}
+  .case-label{
+    font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--mid);display:block;margin-bottom:6px;
+  }
+  .case-row p{font-size:14.5px;color:var(--mid);line-height:1.6;}
+
   /* ============ WORK ============ */
   .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
   .work-card{
@@ -324,6 +369,7 @@
   .price-toggle-btn.is-active{background:var(--slate);color:#fff;}
   .price-tag-group .price-tag:not(:last-child){margin-bottom:2px;}
   .price-note{font-size:13px;color:var(--mid);padding-top:18px;margin-top:18px;border-top:1px solid var(--border);}
+  .pricing-footnote{font-size:14px;color:var(--mid);margin-top:28px;max-width:640px;}
 
   /* ============ CTA BANNER ============ */
   .cta-banner{
@@ -431,7 +477,8 @@
       text-align:center;
       border-bottom:none;
     }
-    .services-grid,.work-grid{grid-template-columns:1fr;}
+    .services-grid,.work-grid,.case-grid{grid-template-columns:1fr;}
+    .about-layout{grid-template-columns:1fr;gap:32px;}
     .spotlight{grid-template-columns:1fr;padding:40px 28px;}
     .process-grid{grid-template-columns:1fr;gap:32px;}
     .process-step::after{display:none;}
