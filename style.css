@@ -395,6 +395,16 @@
     position:relative;z-index:1;transition:transform .15s;
   }
   .btn-white:hover{transform:translateY(-2px);}
+  .cta-buttons{
+    display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+    position:relative;z-index:1;
+  }
+  .btn-outline-white{
+    background:transparent;color:#fff;padding:15px 30px;border-radius:10px;
+    font-weight:700;font-size:15px;text-decoration:none;display:inline-block;
+    border:1.5px solid rgba(255,255,255,0.5);transition:transform .15s,background .2s,border-color .2s;
+  }
+  .btn-outline-white:hover{transform:translateY(-2px);background:rgba(255,255,255,0.1);border-color:#fff;}
 
   /* ============ FOOTER ============ */
   footer{background:var(--slate-dk);color:rgba(255,255,255,0.55);padding:56px 5% 28px;}
