@@ -130,7 +130,7 @@
   .hero p.lead{
     font-size:18px;color:var(--mid);max-width:560px;margin-bottom:38px;
   }
-  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
   .btn-primary{
     background:var(--slate);color:#fff;
     padding:15px 28px;border-radius:10px;
@@ -148,14 +148,6 @@
     transition:border-color .2s, background .2s;
   }
   .btn-secondary:hover{border-color:var(--slate);background:var(--bg);}
-
-  .hero-proof{
-    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
-    padding-top:30px;border-top:1px solid var(--border);
-    font-size:13.5px;color:var(--mid);
-  }
-  .hero-proof strong{color:var(--slate);font-weight:700;}
-  .hero-proof .dot{width:4px;height:4px;border-radius:50%;background:var(--border);}
 
   /* signature squircle motif */
   .hero-motif{
