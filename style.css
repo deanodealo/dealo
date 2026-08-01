@@ -55,14 +55,6 @@
   }
   .nav-cta:hover{background:var(--blue-dk);transform:translateY(-1px);}
   .nav-burger{display:none;background:none;border:none;font-size:22px;color:var(--slate);cursor:pointer;line-height:1;padding:4px;}
-  .nav-phone{
-    display:none;align-items:center;justify-content:center;
-    width:38px;height:38px;border-radius:50%;
-    background:var(--blue-lt);color:var(--blue-dk);
-    font-size:17px;text-decoration:none;flex-shrink:0;
-    transition:background .2s, transform .15s;
-  }
-  .nav-phone:hover{background:var(--blue);color:#fff;transform:translateY(-1px);}
 
   /* ============ HERO ============ */
   .hero{
@@ -146,6 +138,8 @@
     font-weight:700;font-size:15px;text-decoration:none;
     border:1.5px solid var(--border);
     transition:border-color .2s, background .2s;
+    display:inline-flex;align-items:center;justify-content:center;
+    box-sizing:border-box;max-width:100%;
   }
   .btn-secondary:hover{border-color:var(--slate);background:var(--bg);}
 
@@ -191,6 +185,7 @@
 
   /* ============ SERVICES ============ */
   .services-subhead{margin:40px 0 24px;}
+  .section-cta{text-align:center;margin-top:40px;}
   .services-subhead .eyebrow{margin-bottom:0;}
   .services-grid-secondary{opacity:.92;}
   .services-grid{
@@ -251,6 +246,7 @@
     background:rgba(59,130,246,0.3);color:#9FC2FF;font-size:12px;font-weight:700;
     display:flex;align-items:center;justify-content:center;margin-top:1px;
   }
+  .spotlight-questions li::before{content:'?';}
   .spotlight-visual{
     background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
     border-radius:16px;padding:26px;position:relative;z-index:1;
@@ -338,18 +334,18 @@
   .process-step h3{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:18px;color:var(--slate);margin-bottom:10px;}
   .process-step p{font-size:14.5px;color:var(--mid);}
 
-  /* ============ TESTING CONSULTANCY ============ */
-  .testing-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px;}
-  .testing-card{
+  /* ============ TECH CONSULTANCY ============ */
+  .consultancy-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px;}
+  .consultancy-card{
     background:var(--surface);border:1px solid var(--border);border-radius:16px;
     padding:34px 30px;
   }
-  .testing-card h3{
+  .consultancy-card h3{
     font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:18px;
     color:var(--slate);margin-bottom:18px;
   }
-  .testing-card p{font-size:14.5px;color:var(--mid);line-height:1.65;margin-bottom:20px;}
-  .testing-card .btn-secondary{margin-top:4px;}
+  .consultancy-card p{font-size:14.5px;color:var(--mid);line-height:1.65;margin-bottom:20px;}
+  .consultancy-card .btn-secondary{margin-top:4px;}
 
   /* ============ PRICING ============ */
   .pricing-info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-bottom:40px;}
@@ -368,11 +364,6 @@
     color:var(--slate);margin-bottom:10px;
   }
   .pricing-info-card p{font-size:14px;color:var(--mid);line-height:1.65;}
-  .pricing-cta{
-    background:var(--bg);border:1px solid var(--border);border-radius:16px;
-    padding:36px 5%;text-align:center;
-  }
-  .pricing-cta p{font-size:15.5px;color:var(--slate);max-width:560px;margin:0 auto 20px;}
 
   /* ============ CTA BANNER ============ */
   .cta-banner{
@@ -405,6 +396,12 @@
     border:1.5px solid rgba(255,255,255,0.5);transition:transform .15s,background .2s,border-color .2s;
   }
   .btn-outline-white:hover{transform:translateY(-2px);background:rgba(255,255,255,0.1);border-color:#fff;}
+  .cta-phone{
+    margin-top:20px;font-size:14px;color:rgba(255,255,255,0.75);
+    position:relative;z-index:1;
+  }
+  .cta-phone a{color:#fff;font-weight:700;text-decoration:none;border-bottom:1.5px solid rgba(255,255,255,0.4);}
+  .cta-phone a:hover{border-bottom-color:#fff;}
 
   /* ============ FOOTER ============ */
   footer{background:var(--slate-dk);color:rgba(255,255,255,0.55);padding:56px 5% 28px;}
@@ -424,13 +421,6 @@
   }
   .footer-col a{display:block;font-size:14px;color:rgba(255,255,255,0.7);text-decoration:none;margin-bottom:11px;transition:color .2s;}
   .footer-col a:hover{color:#fff;}
-  .footer-message-btn{
-    display:inline-flex !important;align-items:center;gap:6px;
-    background:var(--blue);color:#fff !important;font-weight:700;
-    padding:9px 16px;border-radius:8px;margin-top:4px;
-    transition:background .2s, transform .15s;
-  }
-  .footer-message-btn:hover{background:var(--blue-dk);transform:translateY(-1px);color:#fff !important;}
   .footer-bottom{
     max-width:1180px;margin:0 auto;padding-top:24px;
     display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
@@ -448,11 +438,6 @@
     .nav-burger{
       display:block;
       order:1;
-    }
-    .nav-phone{
-      display:flex;
-      order:1;
-      margin-left:auto;
     }
     .nav-logo{
       order:2;
@@ -490,7 +475,7 @@
       text-align:center;
       border-bottom:none;
     }
-    .services-grid,.work-grid,.case-grid,.testing-grid{grid-template-columns:1fr;}
+    .services-grid,.work-grid,.case-grid,.consultancy-grid{grid-template-columns:1fr;}
     .about-layout{grid-template-columns:1fr;gap:32px;}
     .spotlight{grid-template-columns:1fr;padding:40px 28px;}
     .process-grid{grid-template-columns:1fr;gap:32px;}
