@@ -167,6 +167,26 @@
   }
   .hero-motif svg{width:100%;height:100%;}
 
+  /* ============ CURRENT CUSTOMERS ============ */
+  .customers-strip{
+    padding:36px 5%;background:var(--surface);
+    border-bottom:1px solid var(--border);text-align:center;
+    position:relative;z-index:2;
+  }
+  .customers-label{
+    font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mid);display:block;margin-bottom:24px;
+  }
+  .customers-logos{
+    display:flex;align-items:center;justify-content:center;gap:52px;flex-wrap:wrap;
+  }
+  .customer-logo{
+    display:flex;align-items:center;justify-content:center;
+    opacity:.8;transition:opacity .2s, transform .2s;
+  }
+  .customer-logo:hover{opacity:1;transform:translateY(-2px);}
+  .customer-logo img{height:46px;width:auto;}
+
   /* ============ SECTION SHELLS ============ */
   section.block{padding:88px 5%;}
   .block-inner{max-width:1180px;margin:0 auto;}
@@ -627,6 +647,8 @@
     .process-step::after{display:none;}
     .pricing-info-grid,.payment-grid{grid-template-columns:1fr;}
     .footer-grid{grid-template-columns:1fr 1fr;}
+    .customers-logos{gap:32px;}
+    .customer-logo img{height:38px;}
     .hero-motif{opacity:.5;width:380px;height:380px;}
     .orb-1{width:280px;height:280px;}
     .orb-2{width:220px;height:220px;}
