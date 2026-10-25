@@ -22,6 +22,45 @@ if (navBurger && navEl) {
   window.addEventListener("resize", () => { if (window.innerWidth > 900) setMenu(false); });
 }
 
+// ── Home hero cards: dots, arrows and swipe position ─────────
+const heroRail = document.getElementById("heroRail");
+if (heroRail) {
+  const cards = Array.from(heroRail.querySelectorAll(".hcard"));
+  const dotsEl = document.getElementById("heroDots");
+  const prev = document.getElementById("heroPrev");
+  const next = document.getElementById("heroNext");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const goTo = i => {
+    const c = cards[Math.max(0, Math.min(cards.length - 1, i))];
+    heroRail.scrollTo({ left: c.offsetLeft - cards[0].offsetLeft, behavior: reduce ? "auto" : "smooth" });
+  };
+  const dots = cards.map((c, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "hero-dot";
+    b.setAttribute("role", "tab");
+    b.setAttribute("aria-label", `Card ${i + 1} of ${cards.length}`);
+    b.addEventListener("click", () => goTo(i));
+    dotsEl.appendChild(b);
+    return b;
+  });
+  let current = 0;
+  const update = () => {
+    const step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 1;
+    const atEnd = heroRail.scrollLeft + heroRail.clientWidth >= heroRail.scrollWidth - 4;
+    current = atEnd ? cards.length - 1 : Math.round(heroRail.scrollLeft / step);
+    dots.forEach((d, i) => d.setAttribute("aria-selected", i === current ? "true" : "false"));
+    if (prev) prev.disabled = current === 0;
+    if (next) next.disabled = current === cards.length - 1;
+  };
+  let raf = 0;
+  heroRail.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }, { passive: true });
+  window.addEventListener("resize", update);
+  if (prev) prev.addEventListener("click", () => goTo(current - 1));
+  if (next) next.addEventListener("click", () => goTo(current + 1));
+  update();
+}
+
 const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
