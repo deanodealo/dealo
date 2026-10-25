@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1644 1644">
-  <!-- Dealo "d" mark, redrawn as shapes from the original logo -->
+  <!-- dealo "d" mark, redrawn as shapes from the original logo -->
   <rect width="1644" height="1644" fill="#2D3640"/>
   <clipPath id="bowlClip"><rect x="0" y="0" width="1210" height="1644"/></clipPath>
   <path clip-path="url(#bowlClip)" fill="#FFFFFF" fill-rule="evenodd" d="M786 490a432 432 0 1 0 0.01 0zM786 696a226 226 0 1 1 -0.01 0z"/>

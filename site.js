@@ -1,4 +1,4 @@
-// Dealo — shared site script (index.html, football.html)
+// dealo — shared site script (index.html, football.html)
 
 // Nav: border once scrolled
 const siteNav = document.getElementById("siteNav");

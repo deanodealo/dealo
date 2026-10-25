@@ -1,6 +1,6 @@
 {
-  "name": "Dealo",
-  "short_name": "Dealo",
+  "name": "dealo",
+  "short_name": "dealo",
   "description": "Websites, systems and AI advice for independent businesses and clubs.",
   "start_url": "./",
   "scope": "./",
