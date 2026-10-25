@@ -1,248 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Dealo — Websites &amp; Tournament Software for Grassroots Football Clubs</title>
-<meta name="description" content="Club websites, tournament software and player recruitment tools for grassroots football clubs — built by someone who runs this week in, week out for FC Hanley.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dealo | Websites and tournament software for grassroots football clubs</title>
+<meta name="description" content="Club websites, tournament software and player recruitment for grassroots football clubs, built by Dealo and proven at FC Hanley. £0 to build, then from £40 a month.">
+<meta property="og:title" content="Dealo | Websites and tournament software for grassroots clubs">
+<meta property="og:description" content="Club websites, tournament software and player recruitment, proven at FC Hanley.">
+<meta property="og:image" content="https://deanodealo.github.io/dealo/images/work/fch-tournament.jpg">
+<meta name="theme-color" content="#1736C9">
 <link rel="icon" type="image/png" href="dealo-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* Before / after story (football page only) */
+  .story { padding: clamp(64px, 9vw, 120px) 0; }
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 24px); }
+  .story-col { border-radius: var(--r-lg); padding: clamp(24px, 3vw, 36px); }
+  .story-col h3 { font-size: 28px; margin-bottom: 14px; }
+  .story-before { background: var(--mist); }
+  .story-after { background: var(--cobalt); color: var(--white); }
+  .story-col li { padding: 10px 0; border-top: 1px solid rgba(22,28,36,0.1); }
+  .story-after li { border-top-color: rgba(255,255,255,0.22); }
+  .story-result { margin-top: clamp(16px, 2vw, 24px); font-family: var(--f-display); font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.25; max-width: 32ch; }
+  @media (max-width: 760px) { .story-grid { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="index.html" class="nav-logo"><img src="dealo-logo-full.png" alt="Dealo"></a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="#services">Club Websites</a></li>
-    <li><a href="#tournament">Tournament Software</a></li>
-    <li><a href="#examples">Examples</a></li>
-    <li><a href="#contact" class="nav-cta">Get In Touch</a></li>
-  </ul>
-  <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
-</nav>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg" aria-hidden="true">
-    <span class="orb orb-1"></span>
-    <span class="orb orb-2"></span>
-    <span class="orb orb-3"></span>
-    <span class="orb orb-4"></span>
+<header class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="dealo-logo-full.png" alt="Dealo home" width="150" height="47"></a>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#club-websites">Club websites</a></li>
+        <li><a href="#tournaments">Tournaments</a></li>
+        <li><a href="#playon">Player recruitment</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="index.html">For businesses</a></li>
+        <li class="nav-cta-item"><a href="#contact" class="btn btn-cobalt btn-small">Book a free chat</a></li>
+      </ul>
+    </nav>
+    <button class="nav-burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-  <div class="hero-motif" aria-hidden="true">
-    <svg viewBox="0 0 560 560" fill="none">
-      <rect x="40" y="40" width="480" height="480" rx="120" stroke="#2E3740" stroke-opacity="0.07" stroke-width="2"/>
-      <rect x="120" y="120" width="320" height="320" rx="80" stroke="#3B82F6" stroke-opacity="0.10" stroke-width="2"/>
-    </svg>
-  </div>
-  <div class="hero-inner">
-    <div class="hero-eyebrow">⚽ Built for grassroots football</div>
-    <h1>Websites &amp; tournament software,<br>built for your <em>club.</em></h1>
-    <p class="lead">From a proper club website to running a full festival without a single spreadsheet — built by someone who does exactly this, week in, week out, for FC Hanley.</p>
-    <div class="hero-ctas">
-      <a href="#tournament" class="btn-primary">See Tournament Software →</a>
-      <a href="#examples" class="btn-secondary">See it live</a>
-    </div>
-  </div>
-</section>
+</header>
 
-<!-- SERVICES -->
-<section class="block" id="services">
-  <div class="block-inner">
-    <div class="section-head">
-      <span class="eyebrow">What we build</span>
-      <h2>Everything a club needs, in one place</h2>
-      <p>Built specifically around how grassroots clubs actually run — committees, coaches, parents and volunteers, not a generic template.</p>
-    </div>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">🏟️</div>
-        <h3>Club Websites</h3>
-        <p>A proper home for your club — bespoke design, built and hosted, with the boring bits handled.</p>
-        <ul class="service-list">
-          <li>Custom design from your badge &amp; colours</li>
-          <li>Fixtures, news, sponsors &amp; teams</li>
-          <li>Hosting, updates &amp; ongoing maintenance</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">🏆</div>
-        <h3>Tournament Software</h3>
-        <p>Run a festival, tournament or cup professionally - without spreadsheets — live fixtures, scores and welcome packs all sorted at the click of a button.</p>
-        <ul class="service-list">
-          <li>Customisable fixture generator</li>
-          <li>Live fixtures, results &amp; league tables</li>
-          <li>Online team entry &amp; payments</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">🔍</div>
-        <h3>Player Vacancies</h3>
-        <p>Stop recruiting through Facebook comments — let players and managers find each other directly on your site at the click of a button.</p>
-        <ul class="service-list">
-          <li>Vacancies by age group, position &amp; experience</li>
-          <li>Player &amp; manager registration</li>
-          <li>Direct contact, no middleman</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+<main id="main">
 
-<!-- BUSINESS SYSTEMS -->
-<section class="block">
-  <div class="block-inner">
-    <div class="section-head">
-      <span class="eyebrow">Real client</span>
-      <h2>From paper forms to one live system</h2>
-      <p>This is the same system running for FC Hanley today — not a mockup, a live example of what your club could have.</p>
-    </div>
-    <div class="systems-grid systems-grid-single">
-      <div class="systems-card">
-        <span class="systems-tag systems-tag-real">Real client — grassroots football club</span>
-        <h3>Holiday camp registration, rebuilt from scratch</h3>
-        <div class="systems-before-after">
-          <div class="systems-before">
-            <span class="systems-label">Before</span>
-            <ul>
-              <li>Paper registration forms</li>
-              <li>Manual bank transfer payments</li>
-              <li>Spreadsheet tracking by hand</li>
-            </ul>
-          </div>
-          <div class="systems-after">
-            <span class="systems-label">After</span>
-            <ul>
-              <li>Online registration &amp; secure card payments</li>
-              <li>Automatic confirmation emails</li>
-              <li>Live dashboard by week, age group &amp; income</li>
-            </ul>
-          </div>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>Everything your club runs on, in one place.</h1>
+        <p class="hero-lead">Club websites, tournament software and player recruitment for grassroots football, built by someone who runs them every week for FC Hanley.</p>
+        <p class="hero-offer"><span class="offer-zero">£0</span> to build your club website, then from <strong>£40 a month</strong>.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-cobalt">Book a free chat</a>
+          <a href="https://fchanley.com" class="btn btn-outline" target="_blank" rel="noopener">See FC Hanley's site</a>
         </div>
-        <p class="systems-result"><strong>Result:</strong> hours of manual reconciliation per camp reduced to a glance at a dashboard.</p>
+      </div>
+      <div class="hero-stack" aria-label="Screens from FC Hanley's website and tournament software">
+        <figure class="device browser stack-back">
+          <div class="browser-bar"><i></i><i></i><i></i><span>Festival of Football</span></div>
+          <img src="images/work/fch-tournament.jpg" alt="FC Hanley's Will Brazier Festival of Football live results site" width="1440" height="900">
+        </figure>
+        <figure class="device browser stack-front">
+          <div class="browser-bar"><i></i><i></i><i></i><span>fchanley.com</span></div>
+          <img src="images/work/fch-camps.jpg" alt="FC Hanley's holiday camps page" width="1440" height="900">
+        </figure>
+        <figure class="device phone stack-phone">
+          <img src="images/work/fch-phone-home.jpg" alt="FC Hanley's homepage on a phone" width="585" height="1266">
+        </figure>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- TOURNAMENT SPOTLIGHT -->
-<section class="block" id="tournament">
-  <div class="block-inner">
-    <div class="spotlight">
+  <section class="services" aria-labelledby="clubTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="clubTitle">Built around how grassroots clubs run</h2>
+        <p>Committees, coaches, parents and volunteers, not a generic template. Use one, or all three.</p>
+      </div>
+
+      <article class="panel panel-cobalt panel-wide" id="club-websites">
+        <div class="panel-copy">
+          <h3>A proper home for your club</h3>
+          <p>Designed from your badge and colours, with your teams, fixtures, news and sponsors. Camps and coaching sessions can be booked and paid for online, and parents can find everything on their phone.</p>
+          <ul class="chips">
+            <li>Teams and fixtures</li>
+            <li>Camps and coaching bookings</li>
+            <li>Sponsors and news</li>
+            <li>Hosting and updates</li>
+          </ul>
+          <a href="https://fchanley.com" class="btn btn-light" target="_blank" rel="noopener">Visit fchanley.com</a>
+        </div>
+        <div class="panel-media collage">
+          <img class="collage-main" src="images/work/fch-home.jpg" alt="FC Hanley's homepage" loading="lazy" width="1440" height="900">
+          <img src="images/work/fch-camps.jpg" alt="FC Hanley's holiday camps page" loading="lazy" width="1440" height="900">
+          <img src="images/work/fch-fixtures.jpg" alt="FC Hanley's fixtures and results page" loading="lazy" width="1440" height="900">
+          <img src="images/work/nw-wnf.jpg" alt="Wednesday Night Football at Northwood, run with FC Hanley" loading="lazy" width="1440" height="900">
+        </div>
+      </article>
+
+      <div class="panel-pair">
+        <article class="panel panel-emerald" id="tournaments">
+          <div class="panel-media">
+            <img src="images/work/fch-tournament.jpg" alt="Live fixtures, league tables and results for the Will Brazier Festival of Football" loading="lazy" width="1440" height="900">
+          </div>
+          <div class="panel-copy">
+            <h3>Run your tournament without the spreadsheets</h3>
+            <p>Online team entry and payments, fixtures generated in seconds, and live results and tables everyone can follow on their phone on the day.</p>
+            <ul class="chips">
+              <li>Online entry and payments</li>
+              <li>Fixture generator</li>
+              <li>Live results and tables</li>
+              <li>Welcome packs and referee sheets</li>
+            </ul>
+            <p class="panel-proof">Runs FC Hanley's Will Brazier Festival of Football. Your branding, your pitches, your sponsors.</p>
+            <a href="https://deanodealo.github.io/FCHanleytournament/" class="btn btn-light" target="_blank" rel="noopener">See the tournament site</a>
+          </div>
+        </article>
+
+        <article class="panel panel-violet" id="playon">
+          <div class="panel-media">
+            <img src="images/work/fch-playon.jpg" alt="PlayOn: find a team, add vacancies and find a coach" loading="lazy" width="1440" height="900">
+          </div>
+          <div class="panel-copy">
+            <h3>Recruit players without the Facebook scramble</h3>
+            <p>Managers post vacancies by age group, position and experience. Players and coaches find them and get in touch directly, on your club's own site.</p>
+            <ul class="chips">
+              <li>Vacancies by age and position</li>
+              <li>Player and manager sign-up</li>
+              <li>Direct contact</li>
+            </ul>
+            <a href="https://fchanley.com/vacancies/playon/index.html" class="btn btn-light" target="_blank" rel="noopener">See PlayOn</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" aria-labelledby="storyTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="storyTitle">From paper forms to one live system</h2>
+        <p>FC Hanley's holiday camp registrations, rebuilt from scratch.</p>
+      </div>
+      <div class="story-grid">
+        <div class="story-col story-before">
+          <h3>Before</h3>
+          <ul>
+            <li>Paper registration forms</li>
+            <li>Payments by bank transfer</li>
+            <li>A spreadsheet kept up to date by hand</li>
+          </ul>
+        </div>
+        <div class="story-col story-after">
+          <h3>After</h3>
+          <ul>
+            <li>Online registration and card payments</li>
+            <li>Automatic confirmation emails</li>
+            <li>A live dashboard by week, age group and income</li>
+          </ul>
+        </div>
+      </div>
+      <p class="story-result">Hours of checking payments for each camp, now a quick look at a dashboard.</p>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing" aria-labelledby="pricingTitle">
+    <div class="wrap pricing-grid">
+      <div class="pricing-headline">
+        <h2 id="pricingTitle"><span class="price-zero">£0</span> to build your club website.</h2>
+        <p class="pricing-then">Then from <strong>£40 a month</strong>, which covers your website, hosting, updates and support.</p>
+        <p class="pricing-small">12-month minimum term. Tournament software, bookings and payments are quoted separately, so your committee knows the cost up front. Everything is agreed in writing before we start.</p>
+      </div>
+      <div class="pricing-card">
+        <h3>Included every month</h3>
+        <ul class="ticks">
+          <li>Your club website, designed and built</li>
+          <li>Hosting and a secure (https) connection</li>
+          <li>Updates for new seasons, teams and sponsors</li>
+          <li>Support by phone, text or email</li>
+        </ul>
+        <a href="#contact" class="btn btn-glaze">Get started for £0</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contactTitle">
+    <div class="wrap contact-grid">
       <div>
-        <span class="spotlight-eyebrow">Tournament Software</span>
-        <h2>Bespoke, all-in Tournament Solution — now available for your club.</h2>
-        <p>Built to replace the spreadsheet-and-WhatsApp scramble of running a festival or cup, with live fixtures, tables &amp; results your whole club can follow on the day.</p>
-        <ul class="spotlight-features">
-          <li>Fixture generator with option for named &amp; sponsored pitches</li>
-          <li>Live results site, updating in real time</li>
-          <li>Auto-generated welcome packs, one PDF per team</li>
-          <li>Customisable branding &amp; colours for your tournament</li>
-          <li>Auto-generated fixtures for the officials</li>
-          <li>Admin to view all tournament entries as they register</li>
-          <li>Online team entry with secure payments</li>
-          <li>Want something adding, changing?  We'll do it - Its Your Tournament!</li>
-        </ul>
-        <a href="#contact" class="btn-primary">Ask about your tournament →</a>
+        <h2 id="contactTitle">Book a free chat</h2>
+        <p>Sort your club's website, or run your next tournament properly. We're happy to come to a committee meeting.</p>
+      </div>
+      <div class="contact-actions">
+        <a href="tel:+447813689645" class="contact-link"><span>Call</span>07813 689645</a>
+        <a href="sms:+447813689645" class="contact-link"><span>Text</span>07813 689645</a>
+        <a href="mailto:dealo.hello@gmail.com" class="contact-link"><span>Email</span>dealo.hello@gmail.com</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</main>
 
-<!-- EXAMPLES -->
-<section class="block" id="examples">
-  <div class="block-inner">
-    <div class="section-head">
-      <span class="eyebrow">See it live</span>
-      <h2>Proven weekly, in grassroots football</h2>
-      <p>Full club sites, tournament software, player recruitment — showing the same bespoke, automation-first approach at work.</p>
-    </div>
-    <div class="work-grid">
-      <div class="work-card">
-        <div class="work-thumb thumb-1"><div class="work-grain"></div><span>FC Hanley</span></div>
-        <div class="work-body">
-          <span class="work-tag">Club Website</span>
-          <h3>FC Hanley</h3>
-          <p>Full club site rebuild — fixtures, coaching school, holiday camps, shop and a live booking system.</p>
-          <a href="https://www.fchanley.com" class="work-link" target="_blank">View FCHanley.com →</a>
-        </div>
-      </div>
-      <div class="work-card">
-        <div class="work-thumb thumb-2"><div class="work-grain"></div><span>Tournament Software</span></div>
-        <div class="work-body">
-          <span class="work-tag">Tournament Software</span>
-          <h3>Your Clubs Tournaments</h3>
-          <p>Fixture generation, live results and automated PDF welcome packs for the whole tournament.</p>
-          <a href="https://deanodealo.github.io/FCHanleytournament/" class="work-link">View example →</a>
-        </div>
-      </div>
-      <div class="work-card">
-        <div class="work-thumb thumb-3"><div class="work-grain"></div><span>PlayOn</span></div>
-        <div class="work-body">
-          <span class="work-tag">Player Vacancies</span>
-          <h3>PlayOn</h3>
-          <p>Find-a-team platform for players, coaches and managers — built to replace the Facebook scramble.</p>
-          <a href="https://fchanley.com/vacancies/playon/index.html" class="work-link">View example →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA BANNER -->
-<section class="block" id="contact">
-  <div class="block-inner">
-    <div class="cta-banner">
-      <h2>Ready to sort your club's website, or run your next tournament properly?</h2>
-      <p>No fixed price list here either — we work with whatever budget your committee has, however you'd rather pay.</p>
-      <div class="cta-buttons">
-        <a href="tel:+447813689645" class="btn-white">📞 Tap to call →</a>
-        <a href="sms:+447813689645" class="btn-outline-white">💬 Tap to message →</a>
-        <a href="mailto:dealo.hello@gmail.com" class="btn-outline-white">✉️ Tap to email →</a>
-      </div>
-      <p class="cta-phone">Or call <a href="tel:+447813689645">07813 689645</a></p>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
+<footer class="site-footer">
+  <div class="wrap footer-grid">
     <div>
-      <div class="footer-logo-panel"><img src="dealo-logo-full.png" alt="Dealo"></div>
-      <p>Websites and process automation — proven in grassroots football, built for any business that wants the manual admin gone.</p>
+      <img src="dealo-logo-full.png" alt="Dealo" width="130" height="41" class="footer-logo">
+      <p>Websites, systems and AI advice for independent businesses and clubs. Built in Stoke-on-Trent.</p>
     </div>
-    <div class="footer-col">
-      <h4>For Your Club</h4>
-      <a href="#services">Club Websites</a>
-      <a href="#tournament">Tournament Software</a>
-      <a href="#examples">Examples</a>
+    <div>
+      <h2 class="footer-head">For clubs</h2>
+      <a href="#club-websites">Club websites</a>
+      <a href="#tournaments">Tournament software</a>
+      <a href="#playon">Player recruitment</a>
     </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="index.html">Home</a>
-      <a href="index.html#about">About</a>
-      <a href="index.html#pricing">Pricing</a>
-      <a href="#contact">Get In Touch</a>
+    <div>
+      <h2 class="footer-head">Dealo</h2>
+      <a href="index.html">For businesses</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Book a free chat</a>
     </div>
-<div class="footer-col">
-      <h4>Connect</h4>
-      <a href="tel:+447813689645">📞 07813 689645</a>
-      <a href="sms:+447813689645">💬 Tap to message →</a>
-      <a href="mailto:dealo.hello@gmail.com">✉️ dealo.hello@gmail.com</a>
+    <div>
+      <h2 class="footer-head">Contact</h2>
+      <a href="tel:+447813689645">07813 689645</a>
+      <a href="mailto:dealo.hello@gmail.com">dealo.hello@gmail.com</a>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 Dealo. All rights reserved.</span>
-    <span>Built in Stoke-on-Trent ⚽</span>
-  </div>
+  <div class="wrap footer-bottom">© <span id="year">2026</span> Dealo</div>
 </footer>
 
-<script src="script.js"></script>
-
+<script src="site.js" defer></script>
 </body>
 </html>

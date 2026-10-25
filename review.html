@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Private page: only shared by link with clients. Not linked from the site. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Leave a review | Dealo</title>
+<link rel="icon" type="image/png" href="dealo-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+  .review-page { min-height: 100vh; background: var(--mist); padding: clamp(28px, 6vw, 72px) 0; }
+  .review-card { max-width: 640px; margin: 0 auto; background: var(--white); border-radius: var(--r-lg); padding: clamp(24px, 4vw, 44px); }
+  .review-card .logo { width: 120px; margin-bottom: 26px; }
+  .review-card h1 { font-size: clamp(34px, 5vw, 48px); margin-bottom: 12px; }
+  #reviewFormWrap > p { color: var(--ink-2); margin-bottom: 26px; }
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 7px; }
+  .field .hint { font-weight: 400; color: var(--ink-2); }
+  .field input, .field textarea { width: 100%; font: inherit; font-size: 17px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: var(--r-sm); color: var(--ink); background: var(--white); }
+  .field textarea { min-height: 150px; resize: vertical; line-height: 1.5; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--cobalt); box-shadow: 0 0 0 3px rgba(23,54,201,0.2); }
+  .agree { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; margin: 8px 0 24px; cursor: pointer; }
+  .agree input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--cobalt); flex-shrink: 0; }
+  .form-msg { margin-top: 16px; padding: 12px 14px; border-radius: var(--r-sm); font-weight: 600; }
+  .form-msg.error { background: #FBEAEA; color: #8C0000; }
+  .thanks h2 { font-size: 34px; margin-bottom: 10px; }
+  .thanks p { color: var(--ink-2); }
+</style>
+</head>
+<body>
+<main class="review-page">
+  <div class="wrap">
+    <div class="review-card">
+      <a href="index.html"><img class="logo" src="dealo-logo-full.png" alt="Dealo home" width="120" height="38"></a>
+
+      <div id="reviewFormWrap">
+        <h1>How did we do?</h1>
+        <p>Thanks for working with Dealo. A few honest lines about your experience would really help other local businesses and clubs. We'll check with you before anything goes on the website.</p>
+
+        <!-- Formspree: create a form called "Dealo reviews" in your Formspree
+             account and paste its ID in place of YOUR_FORM_ID below. -->
+        <form id="reviewForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New Dealo review">
+          <div class="field">
+            <label for="rvName">Your name</label>
+            <input type="text" id="rvName" name="Name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="rvRole">Your role <span class="hint">(e.g. Manager, Club Secretary)</span></label>
+            <input type="text" id="rvRole" name="Role" autocomplete="organization-title">
+          </div>
+          <div class="field">
+            <label for="rvOrg">Business or club</label>
+            <input type="text" id="rvOrg" name="Organisation" autocomplete="organization" required>
+          </div>
+          <div class="field">
+            <label for="rvEmail">Email <span class="hint">(so we can check with you, never shown)</span></label>
+            <input type="email" id="rvEmail" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="rvText">Your review</label>
+            <textarea id="rvText" name="Review" required placeholder="What did Dealo build or change for you, and what difference has it made?"></textarea>
+          </div>
+          <label class="agree"><input type="checkbox" name="Permission to publish" value="Yes" required>
+            <span>I'm happy for Dealo to show this review, with my name, role and organisation, on its website.</span></label>
+          <button type="submit" class="btn btn-cobalt">Send my review</button>
+          <div class="form-msg error" id="reviewError" role="alert" hidden></div>
+        </form>
+      </div>
+
+      <div class="thanks" id="reviewThanks" hidden tabindex="-1">
+        <h2>Thank you</h2>
+        <p>Your review has been sent to Dean. We'll be in touch before it goes live on the site.</p>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  (function () {
+    const form = document.getElementById("reviewForm");
+    const err = document.getElementById("reviewError");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      err.hidden = true;
+      const missing = [...form.querySelectorAll("[required]")].find(el => el.type === "checkbox" ? !el.checked : !el.value.trim());
+      if (missing) {
+        err.textContent = missing.type === "checkbox" ? "Please tick the box so we can show your review." : "Please fill in " + (missing.labels[0].childNodes[0].textContent.trim().toLowerCase()) + ".";
+        err.hidden = false;
+        missing.focus();
+        return;
+      }
+      const btn = form.querySelector("button[type=submit]");
+      btn.disabled = true; btn.textContent = "Sending…";
+      try {
+        const res = await fetch(form.action, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(form) });
+        if (!res.ok) throw new Error();
+        document.getElementById("reviewFormWrap").hidden = true;
+        const thanks = document.getElementById("reviewThanks");
+        thanks.hidden = false; thanks.focus();
+      } catch (_) {
+        err.textContent = "Your review didn't send. Please try again, or email it to dealo.hello@gmail.com.";
+        err.hidden = false;
+        btn.disabled = false; btn.textContent = "Send my review";
+      }
+    });
+  })();
+</script>
+</body>
+</html>
