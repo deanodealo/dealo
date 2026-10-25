@@ -19,7 +19,7 @@
   --violet: #5B2BC4;
   --violet-dk: #431F93;
 
-  --f-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --f-display: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --wrap: 1200px;
