@@ -212,6 +212,14 @@ h1, h2, h3 { font-family: var(--f-display); line-height: 1.04; letter-spacing: -
   .panel-wide { grid-template-columns: 1fr; }
   .collage { padding: 0 clamp(18px, 4vw, 28px) clamp(18px, 4vw, 28px); }
   .panel-pair { grid-template-columns: 1fr; }
+
+  /* Stacked cards on phones/tablets: each card pins once you've scrolled
+     to its bottom, the next slides over it, and after the third the page
+     carries on. site.js adds .is-stacked and sets each card's --stack-top. */
+  .services.is-stacked .panel-pair { display: contents; }
+  .services.is-stacked .panel { position: sticky; top: var(--stack-top, 85px); transform-origin: 50% 0; }
+  .services.is-stacked #systems, .services.is-stacked #ai { margin-top: 20px; }
+  .services.is-stacked .panel::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: #0B0F19; opacity: var(--stack-dim, 0); pointer-events: none; }
 }
 
 /* ── Pricing ─────────────────────────────────────────────── */

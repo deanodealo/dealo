@@ -61,6 +61,67 @@ if (heroRail) {
   update();
 }
 
+// ── "Three ways" cards: stack like a flip book on smaller screens ──
+// Cards are pinned by their bottom edge, so a card taller than the screen
+// is read in full before the next one slides over it. All bottoms line up
+// (with a small stagger) so a covered card never shows below the one on top.
+const services = document.querySelector(".services");
+if (services) {
+  const panels = Array.from(services.querySelectorAll(".panel"));
+  const narrow = window.matchMedia("(max-width: 960px)");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // Height of the screen with the browser's toolbars showing (100svh)
+  const probe = document.createElement("div");
+  probe.style.cssText = "position:fixed;top:0;height:100vh;height:100svh;width:0;visibility:hidden;pointer-events:none";
+  document.body.appendChild(probe);
+  const STAGGER = 8, EDGE = 12;
+  let active = false, tops = [], raf = 0, lastW = 0, lastVh = 0;
+
+  const paint = () => {
+    if (!active) return;
+    panels.forEach((p, i) => {
+      const next = panels[i + 1];
+      let t = 0;
+      if (next) {
+        // 0 while the next card is a screen away, 1 once it's pinned on top
+        const dist = next.getBoundingClientRect().top - tops[i + 1];
+        t = Math.min(1, Math.max(0, 1 - dist / (lastVh * 0.85)));
+      }
+      p.style.transform = t ? `scale(${1 - 0.06 * t})` : "";
+      p.style.setProperty("--stack-dim", (0.38 * t).toFixed(3));
+    });
+  };
+
+  const layout = () => {
+    active = narrow.matches && !reduce.matches;
+    services.classList.toggle("is-stacked", active);
+    panels.forEach(p => { p.style.transform = ""; p.style.removeProperty("--stack-top"); p.style.removeProperty("--stack-dim"); });
+    if (!active) return;
+    lastW = window.innerWidth;
+    lastVh = probe.offsetHeight || window.innerHeight;
+    const navH = siteNav ? siteNav.offsetHeight : 0;
+    const heights = panels.map(p => p.offsetHeight);
+    const last = (panels.length - 1) * STAGGER;
+    const bottom = Math.min(lastVh - EDGE - last, navH + EDGE + Math.max(...heights));
+    tops = heights.map((h, i) => bottom + i * STAGGER - h);
+    panels.forEach((p, i) => p.style.setProperty("--stack-top", tops[i] + "px"));
+    paint();
+  };
+
+  window.addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(paint); }, { passive: true });
+  // Ignore height-only resizes (mobile toolbars showing/hiding while scrolling)
+  window.addEventListener("resize", () => { if (window.innerWidth !== lastW || !active) layout(); });
+  narrow.addEventListener("change", layout);
+  reduce.addEventListener("change", layout);
+  if ("ResizeObserver" in window) {
+    let ro = 0;
+    const obs = new ResizeObserver(() => { cancelAnimationFrame(ro); ro = requestAnimationFrame(layout); });
+    panels.forEach(p => obs.observe(p));
+  }
+  window.addEventListener("load", layout);
+  layout();
+}
+
 const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
