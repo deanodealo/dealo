@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Flip test: "Three ways" cards fold over like Flipboard on smaller screens.
+   flip.js adds .is-flip to the section; without it (desktop, reduced
+   motion, no JS) the section is the normal layout from site.css.
+   ========================================================================== */
+.flip-meta { display: none; }
+
+@media (max-width: 960px) {
+  /* Trims so each card fits on one screen */
+  .flip-services.is-flip .chips,
+  .flip-services.is-flip .collage img:not(.collage-main),
+  .flip-services.is-flip .ai-report-card ul { display: none; }
+
+  .flip-services.is-flip .flip-scroller { position: relative; }
+  .flip-services.is-flip .flip-stage { position: sticky; top: var(--flip-top, 85px); height: var(--flip-h, 600px); }
+  .flip-services.is-flip .panel-pair { display: contents; }
+
+  /* Every card fills the stage; the picture gives up space first */
+  .flip-services.is-flip .panel { position: absolute; inset: 0; margin: 0; height: 100%; display: flex; flex-direction: column; visibility: hidden; }
+  .flip-services.is-flip .panel.is-current { visibility: visible; }
+  .flip-services.is-flip .panel-copy { flex: 0 0 auto; }
+  .flip-services.is-flip .panel-copy .btn { margin-top: 4px; }
+  .flip-services.is-flip .panel-media { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  .flip-services.is-flip .collage { display: block; padding-top: 0; }
+  .flip-services.is-flip .collage-main { height: 100%; aspect-ratio: auto !important; object-fit: cover; object-position: top; }
+  .flip-services.is-flip .panel-pair .panel-media > img { height: 100%; aspect-ratio: auto; }
+  .flip-services.is-flip .ai-report { align-items: flex-start; }
+  .flip-services.is-flip .ai-report-total { margin-top: 4px; }
+  .flip-services.is-flip .ai-report-card { border-radius: 12px; }
+
+  /* The fold: four half-card slots */
+  .flip-layer { position: absolute; inset: 0; perspective: 1800px; pointer-events: none; }
+  .flip-layer[hidden] { display: none; }
+  .flip-half { position: absolute; left: 0; right: 0; height: 50%; overflow: hidden; }
+  .flip-services.is-flip .flip-half .panel { position: absolute !important; left: 0; right: 0; height: var(--flip-h) !important; visibility: visible !important; }
+  .flip-top, .flip-back { border-radius: var(--r-lg) var(--r-lg) 0 0; }
+  .flip-bottom, .flip-front { border-radius: 0 0 var(--r-lg) var(--r-lg); }
+  .flip-top { top: 0; }
+  .flip-bottom { top: 50%; }
+  .flip-services.is-flip .flip-top .panel, .flip-services.is-flip .flip-back .panel { top: 0; bottom: auto; }
+  .flip-services.is-flip .flip-bottom .panel, .flip-services.is-flip .flip-front .panel { bottom: auto; top: calc(var(--flip-h) / -2); }
+  .flip-flap { position: absolute; left: 0; right: 0; top: 50%; height: 50%; transform-origin: 50% 0; transform-style: preserve-3d; will-change: transform; }
+  .flip-flap .flip-half { top: 0; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .flip-flap .flip-back { transform: rotateX(180deg); }
+  .flip-shade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; border-radius: inherit; }
+
+  /* Progress dots and hint under the stage */
+  .flip-services.is-flip .flip-meta { position: absolute; left: 0; right: 0; bottom: calc(-1 * var(--flip-meta, 30px)); height: var(--flip-meta, 30px); display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+  .flip-dots { display: flex; gap: 6px; }
+  .flip-dots span { width: 8px; height: 8px; border-radius: 99px; background: var(--line); transition: width 0.25s, background 0.25s; }
+  .flip-dots span.is-on { width: 22px; background: var(--cobalt); }
+  .flip-hint { transition: opacity 0.3s; }
+}

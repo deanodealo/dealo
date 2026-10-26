@@ -65,7 +65,7 @@ if (heroRail) {
 // Cards are pinned by their bottom edge, so a card taller than the screen
 // is read in full before the next one slides over it. All bottoms line up
 // (with a small stagger) so a covered card never shows below the one on top.
-const services = document.querySelector(".services");
+const services = document.querySelector(".services:not(.flip-services)");
 if (services) {
   const panels = Array.from(services.querySelectorAll(".panel"));
   const narrow = window.matchMedia("(max-width: 960px)");
