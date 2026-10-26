@@ -21,7 +21,7 @@
   // Where along the line each step's number sits (0 → 1)
   const measure = () => {
     const vert = vertical.matches;
-    const len = vert ? list.offsetHeight : list.offsetWidth;
+    const len = vert ? list.offsetHeight : list.clientWidth - parseFloat(getComputedStyle(list).paddingRight || 0);
     reach = steps.map(li => {
       const at = vert ? li.offsetTop + 16 : li.offsetLeft;
       return Math.max(0.001, at / len);

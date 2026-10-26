@@ -18,6 +18,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 <link rel="stylesheet" href="flip.css">
+<link rel="stylesheet" href="steps.css">
 </head>
 <body>
 
@@ -226,7 +227,7 @@
   </section>
 
   <!-- ═════════ HOW IT WORKS ═════════ -->
-  <section class="steps" aria-labelledby="stepsTitle">
+  <section class="steps steps-anim" aria-labelledby="stepsTitle">
     <div class="wrap">
       <div class="section-head">
         <h2 id="stepsTitle">How it works</h2>
@@ -239,6 +240,33 @@
         <li>
           <h3>We design and build it</h3>
           <p>You see it take shape, with regular check-ins. Not sure what you need? That's where we help most.</p>
+          <!-- A made-up example site that assembles itself as you scroll -->
+          <div class="build-phone" aria-hidden="true">
+            <div class="bp-screen">
+              <div class="bp-block bp-nav">
+                <div class="bp-wire"></div>
+                <div class="bp-real"><b>Fade &amp; Co</b><span class="bp-burger"><i></i><i></i><i></i></span></div>
+              </div>
+              <div class="bp-block bp-hero">
+                <div class="bp-wire"><i></i><i></i></div>
+                <div class="bp-real"><span class="bp-kicker">Barbers · Open today</span><span class="bp-h">Fresh cuts, no waiting.</span></div>
+              </div>
+              <div class="bp-block bp-text">
+                <div class="bp-wire"><i></i><i></i></div>
+                <div class="bp-real">Book online in seconds. Walk-ins welcome too.</div>
+              </div>
+              <div class="bp-block bp-btn">
+                <div class="bp-wire"></div>
+                <div class="bp-real">Book a chair</div>
+              </div>
+              <div class="bp-block bp-tiles">
+                <div class="bp-wire"><i></i><i></i><i></i></div>
+                <div class="bp-real"><span>Skin fade<b>£18</b></span><span>Beard trim<b>£10</b></span><span>Kids' cut<b>£12</b></span></div>
+              </div>
+              <div class="bp-toast"><span class="bp-tick">✓</span>New booking · Sat 10:30</div>
+            </div>
+            <p class="bp-status"><span class="bp-draft">Building…</span><span class="bp-live">Live</span></p>
+          </div>
         </li>
         <li>
           <h3>Live, and looked after</h3>
@@ -362,5 +390,6 @@
 
 <script src="site.js" defer></script>
 <script src="flip.js" defer></script>
+<script src="steps.js" defer></script>
 </body>
 </html>

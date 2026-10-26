@@ -82,3 +82,11 @@
   .steps-anim.is-live .step-list li.is-on::before { color: var(--white); background: var(--cobalt); border-color: var(--cobalt); }
   .steps-anim.is-live .build-phone { margin-left: -6px; }
 }
+
+/* ── Wide screens: the phone sits beside the three steps ─── */
+@media (min-width: 1000px) {
+  .steps-anim .step-list { position: relative; padding-right: 290px; min-height: 480px; }
+  .steps-anim .build-phone { position: absolute; top: 0; right: 30px; margin: 0; }
+  .steps-anim.is-live .step-list::before,
+  .steps-anim.is-live .step-list::after { width: calc(100% - 290px); }
+}
