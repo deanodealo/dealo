@@ -1,0 +1,84 @@
+/* ==========================================================================
+   "How it works": a timeline that draws itself as you scroll, and a phone
+   in step 2 that assembles a made-up client site. steps.js adds .is-live;
+   without it (no JS, reduced motion) everything shows finished.
+   ========================================================================== */
+
+/* ── The phone (finished state is the default) ───────────── */
+.build-phone { --bp-brand: #7A1F2B; --bp-cream: #FBF4EA; width: 220px; margin-top: 26px; }
+.bp-screen { position: relative; height: 400px; border: 7px solid var(--ink); border-radius: 30px; background: var(--white); overflow: hidden; padding: 30px 10px 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 24px 50px -20px rgba(22,28,36,0.45); }
+.bp-screen::before { content: ""; position: absolute; top: 7px; left: 50%; width: 60px; height: 14px; margin-left: -30px; border-radius: 99px; background: var(--ink); }
+.bp-block { position: relative; flex: 0 0 auto; }
+.bp-wire, .bp-real { border-radius: 8px; }
+.bp-wire { position: absolute; inset: 0; background: #E4E8F0; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 10px; opacity: 0; }
+.bp-wire i { display: block; height: 7px; border-radius: 4px; background: #CDD3DF; }
+.bp-wire i:nth-child(2) { width: 70%; }
+.bp-wire i:nth-child(3) { width: 45%; }
+
+.bp-nav .bp-real { height: 30px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; background: var(--bp-cream); font-family: var(--f-display); font-size: 13px; color: var(--bp-brand); }
+.bp-burger { display: grid; gap: 3px; }
+.bp-burger i { display: block; width: 14px; height: 2px; background: var(--bp-brand); border-radius: 2px; }
+.bp-hero .bp-real { height: 112px; padding: 14px 12px; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; color: var(--white); background: linear-gradient(160deg, rgba(122,31,43,0.55), rgba(22,28,36,0.95)), repeating-linear-gradient(-45deg, #2A1015 0 10px, #3A161C 10px 20px); }
+.bp-kicker { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #F2C9A9; }
+.bp-h { font-family: var(--f-display); font-weight: 800; font-size: 19px; line-height: 1.05; }
+.bp-text .bp-real { font-size: 11.5px; line-height: 1.4; color: var(--ink-2); padding: 2px 4px; }
+.bp-btn .bp-real { height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 99px; background: var(--bp-brand); color: var(--white); font-weight: 700; font-size: 12.5px; }
+.bp-btn .bp-wire { border-radius: 99px; }
+.bp-tiles .bp-real { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.bp-tiles .bp-real span { display: flex; flex-direction: column; gap: 2px; padding: 8px 6px; border-radius: 8px; background: var(--bp-cream); font-size: 9.5px; line-height: 1.2; color: var(--ink-2); }
+.bp-tiles .bp-real b { font-family: var(--f-display); font-size: 14px; color: var(--bp-brand); }
+.bp-tiles .bp-wire { flex-direction: row; align-items: stretch; padding: 0; gap: 6px; background: none; }
+.bp-tiles .bp-wire i { flex: 1; height: auto; width: auto !important; border-radius: 8px; background: #E4E8F0; }
+
+.bp-toast { position: absolute; left: 10px; right: 10px; bottom: 12px; display: flex; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 12px; background: var(--ink); color: var(--white); font-size: 11.5px; font-weight: 600; box-shadow: 0 10px 24px -8px rgba(0,0,0,0.5); }
+.bp-tick { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 99px; background: #19A974; font-size: 10px; }
+
+.bp-status { margin-top: 12px; text-align: center; font-size: 13px; font-weight: 700; }
+.bp-status span { display: inline-flex; align-items: center; gap: 6px; }
+.bp-draft { display: none !important; color: var(--ink-2); }
+.bp-live { color: #0B7A52; }
+.bp-live::before { content: ""; width: 8px; height: 8px; border-radius: 99px; background: #19A974; box-shadow: 0 0 0 4px rgba(25,169,116,0.18); }
+
+/* ── Animated version (.is-live) ─────────────────────────── */
+.steps-anim.is-live .step-list { position: relative; }
+.steps-anim.is-live .step-list li { border-top-color: transparent; }
+/* faint track + the drawn line */
+.steps-anim.is-live .step-list::before,
+.steps-anim.is-live .step-list::after { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 3px; border-radius: 3px; }
+.steps-anim.is-live .step-list::before { background: var(--line); }
+.steps-anim.is-live .step-list::after { background: var(--cobalt); transform-origin: 0 0; transform: scaleX(var(--steps-p, 0)); }
+
+.steps-anim.is-live .step-list li::before { color: var(--line); transform: scale(0.85); transform-origin: 0 50%; transition: color 0.35s, transform 0.45s cubic-bezier(.34,1.56,.64,1); }
+.steps-anim.is-live .step-list li h3,
+.steps-anim.is-live .step-list li > p { opacity: 0.18; transform: translateY(14px); transition: opacity 0.5s, transform 0.5s cubic-bezier(.2,.7,.2,1); }
+.steps-anim.is-live .step-list li > p { transition-delay: 0.08s; }
+.steps-anim.is-live .step-list li.is-on::before { color: var(--cobalt); transform: scale(1); }
+.steps-anim.is-live .step-list li.is-on h3,
+.steps-anim.is-live .step-list li.is-on > p { opacity: 1; transform: none; }
+
+/* phone pieces: wireframe first, then each piece snaps in */
+.steps-anim.is-live .bp-wire { opacity: 1; transition: opacity 0.3s; }
+.steps-anim.is-live .bp-real { opacity: 0; transform: scale(0.94); transition: opacity 0.35s, transform 0.45s cubic-bezier(.34,1.56,.64,1); }
+.steps-anim.is-live .bp-block.is-built .bp-wire { opacity: 0; }
+.steps-anim.is-live .bp-block.is-built .bp-real { opacity: 1; transform: none; }
+.steps-anim.is-live .bp-toast { opacity: 0; transform: translateY(16px); transition: opacity 0.35s, transform 0.45s cubic-bezier(.34,1.56,.64,1); }
+.steps-anim.is-live .build-phone.is-booked .bp-toast { opacity: 1; transform: none; }
+.steps-anim.is-live .bp-draft { display: inline-flex !important; }
+.steps-anim.is-live .bp-live { display: none; }
+.steps-anim.is-live .build-phone.is-done .bp-draft { display: none !important; }
+.steps-anim.is-live .build-phone.is-done .bp-live { display: inline-flex; }
+
+/* ── Phones: vertical timeline with numbered dots ────────── */
+@media (max-width: 760px) {
+  .steps-anim .build-phone { margin-left: auto; margin-right: auto; width: 200px; }
+  .steps-anim .bp-screen { height: 360px; }
+  .steps-anim .bp-hero .bp-real { height: 96px; }
+  .steps-anim.is-live .step-list { padding-left: 58px; gap: 40px; }
+  .steps-anim.is-live .step-list li { border-top: 0; padding-top: 0; position: relative; }
+  .steps-anim.is-live .step-list::before,
+  .steps-anim.is-live .step-list::after { left: 20px; width: 3px; height: 100%; }
+  .steps-anim.is-live .step-list::after { transform: scaleY(var(--steps-p, 0)); }
+  .steps-anim.is-live .step-list li::before { position: absolute; left: -58px; top: -6px; width: 44px; height: 44px; margin: 0; display: grid; place-items: center; font-size: 20px; border-radius: 99px; background: var(--white); border: 3px solid var(--line); transform-origin: 50% 50%; transition: color 0.35s, background 0.35s, border-color 0.35s, transform 0.45s cubic-bezier(.34,1.56,.64,1); }
+  .steps-anim.is-live .step-list li.is-on::before { color: var(--white); background: var(--cobalt); border-color: var(--cobalt); }
+  .steps-anim.is-live .build-phone { margin-left: -6px; }
+}
