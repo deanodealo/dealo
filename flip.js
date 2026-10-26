@@ -59,7 +59,7 @@
   document.body.append(probe);
 
   const META = 30, GAP = 12;
-  let active = false, stickTop = 0, D = 1, lastW = 0, raf = 0, current = -1, shown = -1;
+  let active = false, stickTop = 0, D = 1, lastW = 0, lastVh = 700, raf = 0, current = -1, shown = -1;
   const HOLD = 0.06; // share of each scroll segment where a card rests before folding
 
   const setCurrent = i => {
@@ -114,23 +114,122 @@
     setCurrent(-1);    // …then hide the real card, in the same frame
   };
 
-  // Let go mid-flip and it finishes, like Flipboard: forwards if you were
-  // heading down and past 30%, backwards if heading up, else the nearer card
-  let lastY = window.scrollY, dir = 0, touching = false, snapTimer = 0;
+  // ── One swipe = one card ──────────────────────────────────────
+  // While the cards are pinned, a swipe drives the fold directly and is
+  // never handed to the browser, so iPhone momentum can't carry it on into
+  // the next card. Swiping down past the last card (or up past the first)
+  // is left alone, so the page scrolls on as normal.
+  const root = document.documentElement;
+  const rawNow = () => (stickTop - scroller.getBoundingClientRect().top) / D; // unclamped
+  const yFor = r => window.scrollY + scroller.getBoundingClientRect().top - stickTop + r * D;
+  const clampCard = k => Math.max(0, Math.min(n - 1, k));
+
+  let anim = 0, animating = false;
+  const glideTo = (target, ms = 320) => {
+    cancelAnimationFrame(anim);
+    animating = true;
+    root.style.scrollBehavior = "auto";
+    const from = rawNow(), t0 = performance.now();
+    const step = now => {
+      const t = Math.min(1, (now - t0) / ms);
+      const k = 1 - Math.pow(1 - t, 3); // ease out
+      window.scrollTo(0, yFor(from + (target - from) * k));
+      paint();
+      if (t < 1) anim = requestAnimationFrame(step);
+      else { animating = false; root.style.scrollBehavior = ""; }
+    };
+    anim = requestAnimationFrame(step);
+  };
+
+  // iPhone keeps coasting after a flick; switching scrolling off for a
+  // frame stops it dead, then we glide onto the card it reached
+  const stopAt = r => {
+    root.style.overflow = "hidden";
+    requestAnimationFrame(() => { root.style.overflow = ""; glideTo(r, 240); });
+  };
+
+  let touching = false, drag = null, coastFrom = null, coastTimer = 0, snapTimer = 0, lastY = window.scrollY, dir = 0;
+
+  window.addEventListener("touchstart", ev => {
+    touching = true;
+    coastFrom = null;
+    clearTimeout(snapTimer);
+    if (animating) { cancelAnimationFrame(anim); animating = false; }
+    const r = rawNow();
+    if (!active || r < -0.02 || r > n - 1 + 0.02 || ev.touches.length > 1) { drag = null; return; }
+    const t = ev.touches[0];
+    drag = { x0: t.clientX, y0: t.clientY, k: clampCard(Math.round(r)), flipping: false, lastDy: 0, lastT: performance.now(), v: 0 };
+  }, { passive: true });
+
+  window.addEventListener("touchmove", ev => {
+    if (!drag) return;
+    const t = ev.touches[0];
+    const dy = drag.y0 - t.clientY; // + = finger moving up = next card
+    const dx = drag.x0 - t.clientX;
+    if (!drag.flipping) {
+      if (Math.abs(dy) < 6 && Math.abs(dx) < 6) return;
+      // Sideways swipe, or heading out of the section: leave it to the browser
+      if (Math.abs(dx) > Math.abs(dy) || (drag.k === 0 && dy < 0) || (drag.k === n - 1 && dy > 0)) { drag = null; return; }
+      drag.flipping = true;
+      root.style.scrollBehavior = "auto";
+    }
+    ev.preventDefault();
+    const span = lastVh * 0.5; // finger travel for a full flip
+    const target = Math.max(0, Math.min(n - 1, drag.k + Math.max(-1, Math.min(1, dy / span))));
+    window.scrollTo(0, yFor(target));
+    paint();
+    const now = performance.now(), dt = Math.max(1, now - drag.lastT);
+    drag.v = 0.7 * ((dy - drag.lastDy) / dt) + 0.3 * drag.v; // px per ms, smoothed
+    drag.lastDy = dy; drag.lastT = now;
+  }, { passive: false });
+
+  const endTouch = () => {
+    touching = false;
+    if (drag && drag.flipping) {
+      // Finish the flip if you went a quarter of the way, or flicked it
+      const p = rawNow() - drag.k;
+      const fresh = performance.now() - drag.lastT < 80; // finger still moving at release
+      let target = drag.k;
+      if (p > 0.25 || (fresh && drag.v > 0.3 && p > 0.03)) target = drag.k + 1;
+      else if (p < -0.25 || (fresh && drag.v < -0.3 && p < -0.03)) target = drag.k - 1;
+      drag = null;
+      glideTo(clampCard(target));
+      return;
+    }
+    drag = null;
+    // A normal scroll: if it coasts into the cards, stop at the first one it reaches
+    coastFrom = rawNow();
+    scheduleSnap();
+  };
+  window.addEventListener("touchend", endTouch, { passive: true });
+  window.addEventListener("touchcancel", endTouch, { passive: true });
+
+  const checkCoast = () => {
+    if (coastFrom === null || touching || animating) return;
+    const r = rawNow();
+    const down = r > coastFrom;
+    const next = down ? Math.max(0, Math.floor(coastFrom + 0.02) + 1) : Math.min(n - 1, Math.ceil(coastFrom - 0.02) - 1);
+    if (next < 0 || next > n - 1) return;
+    if (down ? (coastFrom < next && r >= next) : (coastFrom > next && r <= next)) { coastFrom = null; stopAt(next); }
+  };
+
+  // Mouse wheel / trackpad: if a scroll stops mid-flip, finish it
   const snap = () => {
-    if (!active || touching) return;
-    const { raw, i, e } = position();
+    if (!active || touching || animating || drag) return;
+    const r = rawNow();
+    if (r <= 0 || r >= n - 1) return;
+    const { i, e } = position();
     if (e === 0 || e === 1) return;
     const forward = dir > 0 ? e > 0.3 : dir < 0 ? e > 0.7 : e >= 0.5;
-    const target = forward ? i + 1 : i;
-    window.scrollTo({ top: window.scrollY + (target - raw) * D, behavior: reduce.matches ? "auto" : "smooth" });
+    glideTo(forward ? i + 1 : i);
   };
-  const scheduleSnap = () => { clearTimeout(snapTimer); snapTimer = setTimeout(snap, 160); };
+  function scheduleSnap() { clearTimeout(snapTimer); snapTimer = setTimeout(snap, 160); }
 
   const layout = () => {
     lastW = window.innerWidth;
     if (!narrow.matches || reduce.matches) { active = false; clear(); return; }
     const vh = probe.offsetHeight || window.innerHeight;
+    lastVh = vh;
     stickTop = (nav ? nav.offsetHeight : 0) + GAP;
     const h = Math.floor(vh - stickTop - META - GAP);
     sec.style.setProperty("--flip-top", stickTop + "px");
@@ -162,12 +261,12 @@
     const y = window.scrollY;
     if (y !== lastY) { dir = y > lastY ? 1 : -1; lastY = y; }
     cancelAnimationFrame(raf); raf = requestAnimationFrame(paint);
+    if (!active || animating || drag) return;
+    checkCoast();
+    clearTimeout(coastTimer); coastTimer = setTimeout(() => { coastFrom = null; }, 250);
     scheduleSnap();
   }, { passive: true });
-  window.addEventListener("scrollend", snap);
-  window.addEventListener("touchstart", () => { touching = true; clearTimeout(snapTimer); }, { passive: true });
-  window.addEventListener("touchend", () => { touching = false; scheduleSnap(); }, { passive: true });
-  window.addEventListener("touchcancel", () => { touching = false; scheduleSnap(); }, { passive: true });
+  window.addEventListener("scrollend", () => { coastFrom = null; snap(); });
   window.addEventListener("resize", () => { if (window.innerWidth !== lastW) layout(); });
   narrow.addEventListener("change", layout);
   reduce.addEventListener("change", layout);
