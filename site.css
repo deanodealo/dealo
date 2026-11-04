@@ -92,7 +92,7 @@ h1, h2, h3 { font-family: var(--f-display); line-height: 1.04; letter-spacing: -
 .hero-clients { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; margin-top: 36px; font-size: 14px; color: var(--ink-2); }
 .hero-clients img { width: auto; height: 38px; }
 .hero-clients a:first-of-type img { height: 30px; }
-.hero-clients a { display: inline-flex; }
+.hero-clients a, .hero-clients .client-logo { display: inline-flex; }
 
 /* Fanned stack of real client screens */
 .hero-stack { position: relative; aspect-ratio: 16 / 12.5; }
